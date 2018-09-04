@@ -113,7 +113,7 @@ public class ApkGroupsListBean {
              */
 
             private String buildKey;
-            private String buildType;
+            private int buildType;
             private String buildFileKey;
             private String buildFileName;
             private String buildFileSize;
@@ -140,11 +140,11 @@ public class ApkGroupsListBean {
                 this.buildKey = buildKey;
             }
 
-            public String getBuildType() {
+            public int getBuildType() {
                 return buildType;
             }
 
-            public void setBuildType(String buildType) {
+            public void setBuildType(int buildType) {
                 this.buildType = buildType;
             }
 
