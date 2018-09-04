@@ -1,5 +1,7 @@
 package com.tinytongtong.dandelion.http
 
+import com.tinytongtong.dandelion._api_key
+import com.tinytongtong.dandelion._api_key_value
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
@@ -25,7 +27,7 @@ class OkHttpClientUtils private constructor() {
         val instance = init()
 
         private fun init(): OkHttpClient {
-            val builder = OkHttpClient().newBuilder()
+            var builder = OkHttpClient().newBuilder()
                     .addInterceptor { chain ->
                         val request = chain.request()
                                 .newBuilder()
@@ -34,7 +36,7 @@ class OkHttpClientUtils private constructor() {
                         chain.proceed(request)
                     }.connectTimeout(120, TimeUnit.SECONDS).readTimeout(120, TimeUnit.SECONDS).writeTimeout(120, TimeUnit.SECONDS)
 
-            //        builder = addParamsToClient(builder);
+            builder = addParamsToClient(builder)
             return builder.build()
         }
 
@@ -45,15 +47,14 @@ class OkHttpClientUtils private constructor() {
          * @param builder
          * @return
          */
-//    public static OkHttpClient.Builder addParamsToClient(OkHttpClient.Builder builder) {
-//        //添加公共参数apiversion
-//        BasicParamsInterceptor basicParamsInterceptor = new BasicParamsInterceptor.Builder()
-//                .addQueryParam(UrlConfig.Params.DEVICE_ID, DeviceInfo.getDeviceId(DxwApp.instance()))
-//                .addParam(UrlConfig.Params.DEVICE_ID, DeviceInfo.getDeviceId(DxwApp.instance()))
-//                .build();
-//        return builder.cookieJar(new MyCookieManager())//添加cookieJar.
-//                .addInterceptor(basicParamsInterceptor);
-//    }
+        fun addParamsToClient(builder: OkHttpClient.Builder): OkHttpClient.Builder {
+            //添加公共参数apiversion
+            var basicParamsInterceptor = BasicParamsInterceptor.Builder()
+                    .addQueryParam(_api_key, _api_key_value)
+                    .addParam(_api_key, _api_key_value)
+                    .build()
+            return builder.addInterceptor(basicParamsInterceptor)
+        }
     }
 
 }

@@ -4,8 +4,9 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.tinytongtong.dandelion.R
-import com.tinytongtong.dandelion._api_key
+import com.tinytongtong.dandelion._api_key_value
 import okhttp3.ResponseBody
+import java.util.HashMap
 
 /**
  * @Description: 查看所有已上传的apk列表
@@ -27,7 +28,7 @@ class ApkGroupsListActivity : AppCompatActivity(), ApkGroupsListContract.IView {
     }
 
     fun request() {
-        var params = hashMapOf("_api_key" to _api_key)
+        var params = HashMap<String, String>()
         mPresenter?.let {
             it.getDataFromNet(params)
         }
