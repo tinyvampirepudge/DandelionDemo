@@ -3,6 +3,7 @@ package com.tinytongtong.dandelion.biz.grouplist
 import com.tinytongtong.dandelion.base.IBaseModel
 import com.tinytongtong.dandelion.base.IBasePresenter
 import com.tinytongtong.dandelion.base.IBaseView
+import com.tinytongtong.dandelion.biz.grouplist.bean.ApkGroupsListBean
 import io.reactivex.Observer
 import okhttp3.ResponseBody
 
@@ -15,11 +16,11 @@ import okhttp3.ResponseBody
  */
 interface ApkGroupsListContract {
     interface IModel : IBaseModel {
-        fun getApkGroupsList(params: Map<String, String>, observer: Observer<ResponseBody>)
+        fun getApkGroupsList(params: Map<String, String>, observer: Observer<ApkGroupsListBean>)
     }
 
     interface IView : IBaseView {
-        fun sendResultToView(responseBody: ResponseBody, params: Map<String, String>)
+        fun sendResultToView(bean: ApkGroupsListBean, params: Map<String, String>)
     }
 
     interface IPresenter : IBasePresenter {

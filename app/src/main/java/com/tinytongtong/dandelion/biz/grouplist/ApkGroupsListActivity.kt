@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import com.tinytongtong.dandelion.R
 import com.tinytongtong.dandelion._api_key_value
+import com.tinytongtong.dandelion.biz.grouplist.bean.ApkGroupsListBean
+import com.tinytongtong.dandelion.common.util.LogUtils
+import com.tinytongtong.dandelion.common.util.ToastUtils
 import okhttp3.ResponseBody
 import java.util.HashMap
 
@@ -34,8 +37,15 @@ class ApkGroupsListActivity : AppCompatActivity(), ApkGroupsListContract.IView {
         }
     }
 
-    override fun sendResultToView(responseBody: ResponseBody, params: Map<String, String>) {
-        Log.e("responseBody.string()：", responseBody.string())
+    override fun sendResultToView(bean: ApkGroupsListBean, params: Map<String, String>) {
+        Log.e("responseBody.string()：", bean.toString())
+        if (0 == bean.code && bean.data != null && bean.data.list != null && bean.data.list.size > 0) {
+            bean.data.list.forEach {
+                LogUtils.e(it.buildName)
+            }
+        } else {
+            ToastUtils.showSingleToast(this, "返回数据有误，请重试！")
+        }
     }
 
     override fun showLoadingDialog() {

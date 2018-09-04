@@ -1,6 +1,7 @@
 package com.tinytongtong.dandelion.http
 
 import com.google.gson.GsonBuilder
+import com.tinytongtong.dandelion.biz.grouplist.bean.ApkGroupsListBean
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.Scheduler
@@ -61,7 +62,7 @@ class HttpHelper private constructor() {
                 .build()
     }
 
-    fun getApkGroupsList(params: Map<String, String>, observer: Observer<ResponseBody>) {
+    fun getApkGroupsList(params: Map<String, String>, observer: Observer<ApkGroupsListBean>) {
         getRetrofitService()
                 .getAppGroupList(params)
                 .subscribeOn(Schedulers.io())

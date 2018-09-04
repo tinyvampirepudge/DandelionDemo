@@ -1,5 +1,7 @@
 package com.tinytongtong.dandelion.http;
 
+import com.tinytongtong.dandelion.biz.grouplist.bean.ApkGroupsListBean;
+
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -20,5 +22,5 @@ public interface RetrofitService {
     //查看自己上传的应用
     @FormUrlEncoded
     @POST(UrlConfigKt.URL_APP_GROUPS_LIST)
-    Observable<ResponseBody> getAppGroupList(@FieldMap Map<String, String> params);
+    Observable<ApkGroupsListBean> getAppGroupList(@FieldMap Map<String, String> params);
 }

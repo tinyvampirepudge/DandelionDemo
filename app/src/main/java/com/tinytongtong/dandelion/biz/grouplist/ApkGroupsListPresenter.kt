@@ -1,6 +1,7 @@
 package com.tinytongtong.dandelion.biz.grouplist
 
 import android.util.Log
+import com.tinytongtong.dandelion.biz.grouplist.bean.ApkGroupsListBean
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import okhttp3.ResponseBody
@@ -18,7 +19,7 @@ class ApkGroupsListPresenter(iView: ApkGroupsListContract.IView) : ApkGroupsList
     val iModel: ApkGroupsListContract.IModel = ApkGroupsListModel()
 
     override fun getDataFromNet(params: Map<String, String>) {
-        iModel.getApkGroupsList(params, object : Observer<ResponseBody> {
+        iModel.getApkGroupsList(params, object : Observer<ApkGroupsListBean> {
             override fun onComplete() {
                 Log.e("", "")
             }
@@ -27,7 +28,7 @@ class ApkGroupsListPresenter(iView: ApkGroupsListContract.IView) : ApkGroupsList
 
             }
 
-            override fun onNext(t: ResponseBody) {
+            override fun onNext(t: ApkGroupsListBean) {
                 view.sendResultToView(t, params)
             }
 
