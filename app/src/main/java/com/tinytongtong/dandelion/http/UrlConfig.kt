@@ -10,3 +10,5 @@ package com.tinytongtong.dandelion.http
 const val BASE_URL = "https://www.pgyer.com/"
 
 const val URL_APP_GROUPS_LIST = "apiv2/app/listMy"
+
+const val URL_APP_BUILDS_LIST = "apiv2/app/builds"

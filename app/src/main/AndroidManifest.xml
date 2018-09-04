@@ -28,6 +28,9 @@
         <activity
             android:name=".biz.grouplist.ApkGroupsListActivity"
             android:label="已上传的apk列表" />
+        <activity
+            android:name=".biz.buildslist.BuildsListActivity"
+            android:label="获取App所有版本" />
     </application>
 
 </manifest>

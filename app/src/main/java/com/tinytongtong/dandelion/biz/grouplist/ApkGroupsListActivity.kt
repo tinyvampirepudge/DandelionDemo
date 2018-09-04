@@ -1,20 +1,20 @@
 package com.tinytongtong.dandelion.biz.grouplist
 
-import android.support.v7.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.tinytongtong.dandelion.R
-import com.tinytongtong.dandelion.R.id.recyclerView
-import com.tinytongtong.dandelion._api_key_value
+import com.tinytongtong.dandelion.appKey
+import com.tinytongtong.dandelion.biz.buildslist.BuildsListActivity
 import com.tinytongtong.dandelion.biz.grouplist.bean.ApkGroupsListBean
+import com.tinytongtong.dandelion.buildKey
 import com.tinytongtong.dandelion.common.util.LogUtils
 import com.tinytongtong.dandelion.common.util.ToastUtils
 import kotlinx.android.synthetic.main.activity_apk_groups_list.*
-import okhttp3.ResponseBody
-import java.util.HashMap
+import java.util.*
 
 /**
  * @Description: 查看所有已上传的apk列表
@@ -31,7 +31,7 @@ class ApkGroupsListActivity : AppCompatActivity(), ApkGroupsListContract.IView {
         setContentView(R.layout.activity_apk_groups_list)
 
         refreshLayout.setEnableLoadMore(false)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = LinearLayoutManager(this) as RecyclerView.LayoutManager?
 
         mPresenter = ApkGroupsListPresenter(this)
 
@@ -56,8 +56,17 @@ class ApkGroupsListActivity : AppCompatActivity(), ApkGroupsListContract.IView {
             bean.data.list.forEach {
                 LogUtils.e(it.buildName)
             }
-            var adapter = ApkGroupsListAdapter(R.layout.adapter_apk_groups_list,bean.data.list)
+            val adapter = ApkGroupsListAdapter(R.layout.adapter_apk_groups_list, bean.data.list)
 //            var adapter = ApkGroupsListAdapterKt(this, bean.data.list)
+
+            adapter.setOnItemClickListener { adapter, view, position ->
+                val bean = bean.data.list[position]
+                val intent = Intent(this, BuildsListActivity::class.java)
+                intent.putExtra("name", bean.buildName)
+                intent.putExtra(appKey, bean.appKey)
+                intent.putExtra(buildKey, bean.buildKey)
+                startActivity(intent)
+            }
             recyclerView.adapter = adapter
         } else {
             refreshLayout.finishRefresh(false)

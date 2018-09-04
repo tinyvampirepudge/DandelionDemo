@@ -1,7 +1,6 @@
 package com.tinytongtong.dandelion.common.util;
 
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -108,8 +107,8 @@ public class CommonUtils {
 
 
     /*
-       * 检查是否存在sd卡
-       */
+     * 检查是否存在sd卡
+     */
     public static boolean hasSdcard() {
         String state = Environment.getExternalStorageState();
         return state.equals(Environment.MEDIA_MOUNTED);
@@ -835,6 +834,7 @@ public class CommonUtils {
                 Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         return spanStr;
     }
+
     public static SpannableString getSpannableText2(String str) {
         SpannableString spanStr = new SpannableString(str);
         spanStr.setSpan(new RelativeSizeSpan(0.7f), str.length() - 2, str.length(),
@@ -976,6 +976,7 @@ public class CommonUtils {
 
     /**
      * 隐藏全部的字符
+     *
      * @param str
      * @return
      */
@@ -986,6 +987,7 @@ public class CommonUtils {
         }
         return stringBuilder;
     }
+
     /**
      * 时间转成正常
      * 如20161128175545 转成2016-11-28 17:55：45
@@ -1007,14 +1009,13 @@ public class CommonUtils {
 
     /**
      * 去除字符串数组中的重复数据
-     *
      */
     public static List<String> resetPhone(List<String> lists) {
         if (lists == null) {
             return null;
         }
         List<String> list = new ArrayList<String>();
-        for (Iterator<String> iterator = lists.iterator(); iterator.hasNext();) {
+        for (Iterator<String> iterator = lists.iterator(); iterator.hasNext(); ) {
             String str = iterator.next();
             // 去重
             if (!list.contains(str)) {
@@ -1024,17 +1025,18 @@ public class CommonUtils {
         return list;
     }
 
-    public static String getCurrentDate(){
+    public static String getCurrentDate() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         return df.format(new Date());
     }
 
     /**
      * 节假日查询
-     * @des 用作查询指定时间是否是节假日
+     *
      * @param time 要查询的时间，格式：20161104，若为null则是当前时间
-     * */
-    public static String queryHoliday(String time){
+     * @des 用作查询指定时间是否是节假日
+     */
+    public static String queryHoliday(String time) {
         String appid = "26649";
         String secret = "87b15420189441dfb06d14635c268a0d";
         /*return new ShowApiRequest( "http://route.showapi.com/894-1",appid,secret)
@@ -1046,10 +1048,8 @@ public class CommonUtils {
     /**
      * 向指定 URL 发送POST方法的请求
      *
-     * @param url
-     *            发送请求的 URL
-     * @param param
-     *            请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
+     * @param url   发送请求的 URL
+     * @param param 请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
      * @return 所代表远程资源的响应结果
      */
     public static String sendPost(String url, String param) {
@@ -1082,20 +1082,19 @@ public class CommonUtils {
                 result += line;
             }
         } catch (Exception e) {
-            System.out.println("发送 POST 请求出现异常！"+e);
+            System.out.println("发送 POST 请求出现异常！" + e);
             e.printStackTrace();
         }
         //使用finally块来关闭输出流、输入流
-        finally{
-            try{
-                if(out!=null){
+        finally {
+            try {
+                if (out != null) {
                     out.close();
                 }
-                if(in!=null){
+                if (in != null) {
                     in.close();
                 }
-            }
-            catch(IOException ex){
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
@@ -1104,15 +1103,37 @@ public class CommonUtils {
 
 
     /**
-     * @des 判断当前时间是否在某个时间段
      * @param startHour 起始时间点
-     * @param endHour 截止时间点
-     * */
-    public static boolean isCurrentBetweenTime(int startHour,int endHour){
-        Calendar now= Calendar.getInstance();
+     * @param endHour   截止时间点
+     * @des 判断当前时间是否在某个时间段
+     */
+    public static boolean isCurrentBetweenTime(int startHour, int endHour) {
+        Calendar now = Calendar.getInstance();
         int currentHour = now.get(Calendar.HOUR_OF_DAY);
-        Log.i("dayType","hour:"+currentHour);
-        return startHour <=currentHour & endHour >= currentHour;
+        Log.i("dayType", "hour:" + currentHour);
+        return startHour <= currentHour & endHour >= currentHour;
     }
 
+
+    public static String getFileSizeDescription(long size) {
+        StringBuffer bytes = new StringBuffer();
+        DecimalFormat format = new DecimalFormat("###.0");
+        if (size >= 1024 * 1024 * 1024) {
+            double i = (size / (1024.0 * 1024.0 * 1024.0));
+            bytes.append(format.format(i)).append("GB");
+        } else if (size >= 1024 * 1024) {
+            double i = (size / (1024.0 * 1024.0));
+            bytes.append(format.format(i)).append("MB");
+        } else if (size >= 1024) {
+            double i = (size / (1024.0));
+            bytes.append(format.format(i)).append("KB");
+        } else if (size < 1024) {
+            if (size <= 0) {
+                bytes.append("0B");
+            } else {
+                bytes.append((int) size).append("B");
+            }
+        }
+        return bytes.toString();
+    }
 }
