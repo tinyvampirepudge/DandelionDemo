@@ -62,7 +62,7 @@ class BuildsListActivity : AppCompatActivity(), BuildsListContract.IView {
                 LogUtils.e(it.buildName)
             }
 
-            val adapter = BuildsListAdapter(R.layout.adapter_builds_list, bean.data.list)
+            val adapter = BuildsListAdapter(R.layout.adapter_builds_list, bean.data.list, appKey)
             recyclerView.adapter = adapter
         } else {
             refreshLayout.finishRefresh(false)

@@ -31,6 +31,9 @@
         <activity
             android:name=".biz.buildslist.BuildsListActivity"
             android:label="获取App所有版本" />
+        <activity
+            android:name=".biz.detail.AppDetailActivity"
+            android:label="获取App详细信息" />
     </application>
 
 </manifest>

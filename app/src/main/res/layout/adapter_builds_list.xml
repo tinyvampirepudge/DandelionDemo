@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/rl_title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -23,6 +24,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/icon_right_arrow"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
             android:textSize="20sp"
             tools:text="JenkinsDemo" />
 
@@ -47,8 +52,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="当前版本：" />
+            android:text="当前版本："
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_version"
@@ -67,8 +72,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="Build：" />
+            android:text="Build："
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_build_version"
@@ -87,8 +92,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="大小：" />
+            android:text="大小："
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_size"
@@ -107,8 +112,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="下载次数：" />
+            android:text="下载次数："
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_download_count"
@@ -127,8 +132,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="更新时间：" />
+            android:text="更新时间："
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_create_time"

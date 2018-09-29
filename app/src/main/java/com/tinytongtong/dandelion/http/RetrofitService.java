@@ -1,6 +1,7 @@
 package com.tinytongtong.dandelion.http;
 
 import com.tinytongtong.dandelion.biz.buildslist.bean.BuildsListBean;
+import com.tinytongtong.dandelion.biz.detail.bean.AppDetailBean;
 import com.tinytongtong.dandelion.biz.grouplist.bean.ApkGroupsListBean;
 
 import java.util.Map;
@@ -29,5 +30,10 @@ public interface RetrofitService {
     @FormUrlEncoded
     @POST(UrlConfigKt.URL_APP_BUILDS_LIST)
     Observable<BuildsListBean> getBuildsList(@FieldMap Map<String, String> params);
+
+    // 获取App详细信息
+    @FormUrlEncoded
+    @POST(UrlConfigKt.URL_APP_DETAIL)
+    Observable<AppDetailBean> getAppDetailInfo(@FieldMap Map<String, String> params);
 
 }

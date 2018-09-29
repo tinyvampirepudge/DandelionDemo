@@ -2,6 +2,7 @@ package com.tinytongtong.dandelion.http
 
 import com.google.gson.GsonBuilder
 import com.tinytongtong.dandelion.biz.buildslist.bean.BuildsListBean
+import com.tinytongtong.dandelion.biz.detail.bean.AppDetailBean
 import com.tinytongtong.dandelion.biz.grouplist.bean.ApkGroupsListBean
 import io.reactivex.Observable
 import io.reactivex.Observer
@@ -80,6 +81,17 @@ class HttpHelper private constructor() {
     fun getBuildsList(params: Map<String, String>, observer: Observer<BuildsListBean>) {
         getRetrofitService()
                 .getBuildsList(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer)
+    }
+
+    /**
+     * 获取App详细信息
+     */
+    fun getAppDetailInfo(params: Map<String, String>, observer: Observer<AppDetailBean>) {
+        getRetrofitService()
+                .getAppDetailInfo(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer)
