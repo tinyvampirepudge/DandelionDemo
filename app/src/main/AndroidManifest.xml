@@ -3,6 +3,9 @@
     package="com.tinytongtong.dandelion">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:name=".DandelionApp"
@@ -34,6 +37,9 @@
         <activity
             android:name=".biz.detail.AppDetailActivity"
             android:label="获取App详细信息" />
+        <activity
+            android:name=".biz.qrcode.QRCodeActivity"
+            android:label="识别图片二维码" />
     </application>
 
 </manifest>

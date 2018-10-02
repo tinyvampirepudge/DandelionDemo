@@ -6,20 +6,20 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.SpannableStringBuilder
+import android.text.Spanned
 import android.text.TextUtils
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.text.style.UnderlineSpan
 import android.view.View
 import com.bumptech.glide.Glide
 import com.tinytongtong.dandelion.R
 import com.tinytongtong.dandelion.biz.detail.bean.AppDetailBean
+import com.tinytongtong.dandelion.biz.qrcode.QRCodeActivity
+import com.tinytongtong.dandelion.common.util.LogUtils
 import com.tinytongtong.dandelion.common.util.ToastUtils
 import kotlinx.android.synthetic.main.activity_app_detail.*
-import android.text.Spanned
-import android.text.style.UnderlineSpan
-import android.text.SpannableStringBuilder
-import android.text.method.LinkMovementMethod
-import android.widget.Toast
-import android.text.style.ClickableSpan
-import com.tinytongtong.dandelion.common.util.LogUtils
 
 
 /**
@@ -89,9 +89,6 @@ class AppDetailActivity : AppCompatActivity(), AppDetailContract.IView {
                 app_detail_screen_shots_tv.setText("应用截图：")
                 app_detail_screen_shots_rv.visibility = View.VISIBLE
 
-                Glide.with(this)
-                        .load("https://www.pgyer.com/image/view/app_screenshots/${bean.data.buildScreenshots}")
-                        .into(app_detail_screen_shots)
                 val screenShotLists: List<String> = bean.data.buildScreenshots.split(",")
                 val adapter: AppDetailScreenShotAdapter = AppDetailScreenShotAdapter(R.layout.adapter_app_detail_screen_shot, screenShotLists)
                 app_detail_screen_shots_rv.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
@@ -161,7 +158,9 @@ class AppDetailActivity : AppCompatActivity(), AppDetailContract.IView {
                 Glide.with(this).load(bean.data.buildQRCodeURL).into(app_detail_qr_code_url_iv)
                 app_detail_qr_code_url_iv.setOnClickListener(object : View.OnClickListener {
                     override fun onClick(v: View?) {
-                        LogUtils.e("查看二维码")
+                        val qrCodeIntent = Intent(this@AppDetailActivity, QRCodeActivity::class.java)
+                        qrCodeIntent.putExtra("qrcode_url", bean.data.buildQRCodeURL)
+                        startActivity(qrCodeIntent)
                     }
 
                 })
