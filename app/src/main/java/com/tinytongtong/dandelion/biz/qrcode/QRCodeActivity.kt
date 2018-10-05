@@ -1,7 +1,6 @@
 package com.tinytongtong.dandelion.biz.qrcode
 
-import android.app.Dialog
-import android.app.ProgressDialog.show
+import android.Manifest
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
@@ -16,18 +15,20 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.target.Target
 import com.google.zxing.*
 import com.google.zxing.common.HybridBinarizer
 import com.google.zxing.qrcode.QRCodeReader
+import com.tbruyelle.rxpermissions2.Permission
+import com.tbruyelle.rxpermissions2.RxPermissions
 import com.tinytongtong.dandelion.R
+import com.tinytongtong.dandelion.R.id.never
 import com.tinytongtong.dandelion.common.util.ToastUtils
+import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_qrcode.*
 import java.io.File
 import java.io.FileOutputStream
@@ -53,22 +54,43 @@ class QRCodeActivity : AppCompatActivity() {
                 .placeholder(R.drawable.ic_default_pic)
                 .error(R.drawable.ic_error)
 
-        Glide.with(this)
-                .load(qrcodeUrl)
-                .apply(options)
-                .listener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                        Log.e(QRCodeActivity::javaClass.name, "onLoadFailed")
-                        return false
+        val rxPermissions: RxPermissions = RxPermissions(this)
+        rxPermissions
+                .requestEachCombined(Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                .subscribe(object : Consumer<Permission> {
+                    override fun accept(permission: Permission) {
+                        if (permission.granted) {
+                            // `permission.name` is granted !
+                            println("`permission.name` is granted !")
+                            Glide.with(this@QRCodeActivity)
+                                    .load(qrcodeUrl)
+                                    .apply(options)
+                                    .listener(object : RequestListener<Drawable> {
+                                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                                            Log.e(QRCodeActivity::javaClass.name, "onLoadFailed")
+                                            return false
+                                        }
+
+                                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                                            Log.e(QRCodeActivity::javaClass.name, "onResourceReady")
+                                            loadSuccess = true
+                                            return false
+                                        }
+                                    })
+                                    .into(qr_code_iv)
+                        } else if (permission.shouldShowRequestPermissionRationale) {
+                            // Denied permission without ask never again
+                            println("Denied permission without ask never again")
+                        } else {
+                            // Denied permission with ask never again
+                            // Need to go to the settings
+                            println("Denied permission with ask never again, Need to go to the settings")
+                        }
                     }
 
-                    override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                        Log.e(QRCodeActivity::javaClass.name, "onResourceReady")
-                        loadSuccess = true
-                        return false
-                    }
                 })
-                .into(qr_code_iv)
 
         qr_code_iv.setOnLongClickListener(object : View.OnLongClickListener {
             override fun onLongClick(v: View?): Boolean {
@@ -141,25 +163,23 @@ class QRCodeActivity : AppCompatActivity() {
         val builder: AlertDialog = AlertDialog.Builder(this)
                 .setTitle("请选择")
                 .setCancelable(true)
-                .setItems(strs, object : DialogInterface.OnClickListener {
-                    override fun onClick(dialog: DialogInterface?, which: Int) {
-                        when (which) {
-                            0 -> {
-                                saveImageToGallery(bitmap)
-                            }
-                            1 -> {
-                                println("识别图中二维码:${url}")
-                                if (!TextUtils.isEmpty(url)) {
-                                    val intent = Intent();
-                                    intent.action = "android.intent.action.VIEW"
-                                    val content_url: Uri = Uri.parse(url)
-                                    intent.data = content_url
-                                    startActivity(intent)
-                                }
+                .setItems(strs) { dialog, which ->
+                    when (which) {
+                        0 -> {
+                            saveImageToGallery(bitmap)
+                        }
+                        1 -> {
+                            println("识别图中二维码:${url}")
+                            if (!TextUtils.isEmpty(url)) {
+                                val intent = Intent();
+                                intent.action = "android.intent.action.VIEW"
+                                val content_url: Uri = Uri.parse(url)
+                                intent.data = content_url
+                                startActivity(intent)
                             }
                         }
                     }
-                })
+                }
                 .setNegativeButton("取消", object : DialogInterface.OnClickListener {
                     override fun onClick(dialog: DialogInterface?, which: Int) {
                         println("取消")

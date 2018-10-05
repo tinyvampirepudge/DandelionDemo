@@ -53,4 +53,7 @@ dependencies {
 
     // zxing
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
+
+    // RxPermissions
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
 }
