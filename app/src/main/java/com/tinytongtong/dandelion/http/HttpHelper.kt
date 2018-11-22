@@ -4,11 +4,13 @@ import com.google.gson.GsonBuilder
 import com.tinytongtong.dandelion.biz.buildslist.bean.BuildsListBean
 import com.tinytongtong.dandelion.biz.detail.bean.AppDetailBean
 import com.tinytongtong.dandelion.biz.grouplist.bean.ApkGroupsListBean
+import com.tinytongtong.dandelion.biz.upload.bean.UploadResultBean
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -92,6 +94,18 @@ class HttpHelper private constructor() {
     fun getAppDetailInfo(params: Map<String, String>, observer: Observer<AppDetailBean>) {
         getRetrofitService()
                 .getAppDetailInfo(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer)
+    }
+
+
+    /**
+     * 上传apk
+     */
+    fun uploadApk(params: RequestBody, observer: Observer<UploadResultBean>) {
+        getRetrofitService()
+                .uploadApk(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer)

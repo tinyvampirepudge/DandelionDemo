@@ -14,3 +14,5 @@ const val URL_APP_GROUPS_LIST = "apiv2/app/listMy"
 const val URL_APP_BUILDS_LIST = "apiv2/app/builds"
 
 const val URL_APP_DETAIL = "apiv2/app/view"
+
+const val URL_APP_LOAD = "apiv2/app/upload"

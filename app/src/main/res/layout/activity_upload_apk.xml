@@ -6,4 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".biz.upload.UploadApkActivity">
 
+    <Button
+        android:id="@+id/btn_select_file"
+        style="@style/btn_style_lower"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="选择文件" />
+
+    <TextView
+        android:id="@+id/tv_file_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="文件信息：\n"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_select_file" />
+
+    <Button
+        android:id="@+id/btn_start_upload"
+        style="@style/btn_style_lower"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_file_info"
+        android:text="开始上传"
+        android:textColor="#33000000"
+        />
+
 </android.support.constraint.ConstraintLayout>
